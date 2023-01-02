@@ -1,0 +1,25 @@
+--Create a store database
+
+CREATE TABLE store (id INTEGER PRIMARY KEY, item TEXT, color TEXT, size TEXT, price INTEGER, qty INTEGER);
+
+INSERT INTO store VALUES ("1", "tshirt", "blue", "small", "12.00", "2");
+INSERT INTO store VALUES ("2", "tshirt", "red", "small", "12.00", "1");
+INSERT INTO store VALUES ("3", "tshirt", "purple", "medium", "10.00", "1");
+INSERT INTO store VALUES ("4", "tshirt", "green", "medium", "10.00", "2");
+INSERT INTO store VALUES ("5", "hat", "white", "small", "15.00", "2");
+INSERT INTO store VALUES ("6", "hat", "black", "small", "15.00", "3");
+INSERT INTO store VALUES ("7", "jeans", "blue", "medium", "25.00", "3");
+INSERT INTO store VALUES ("8", "jeans", "gray", "large", "25.00", "2");
+INSERT INTO store VALUES ("9", "sweatshirt", "gray", "small", "20.00", "2");
+INSERT INTO store VALUES ("10", "sweatshirt", "black", "large", "20.00", "1");
+INSERT INTO store VALUES ("11", "sweatshirt", "white", "large", "20.00", "3");
+INSERT INTO store VALUES ("12", "shorts", "blue", "medium", "15.00", "4");
+INSERT INTO store VALUES ("13", "shorts", "dark blue", "small", "12.00", "2");
+INSERT INTO store VALUES ("14", "keychain", "green", "small", "5.00", "2");
+INSERT INTO store VALUES ("15", "keychain", "orange", "small", "5.00", "1");
+
+--Display database ordered by price.
+SELECT * FROM store ORDER BY price;
+
+--Display database items with color listed as black.
+SELECT * FROM store WHERE color="black";
