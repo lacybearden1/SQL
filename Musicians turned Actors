@@ -1,0 +1,33 @@
+CREATE TABLE singers (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, studio_albums INTEGER);
+INSERT INTO singers VALUES (1,"Cher", 26);
+INSERT INTO singers VALUES (2, "Ice Cube", 10);
+INSERT INTO singers VALUES (3, "Ludacris", 8);
+INSERT INTO singers VALUES (4, "Barbra Streisand", 36);
+INSERT INTO singers VALUES (5, "Beyonce", 7);
+INSERT INTO singers VALUES (6, "Madonna", 14);
+INSERT INTO singers VALUES (7, "Justin Timberlake", 5);
+INSERT INTO singers VALUES (8, "Britney Spears", 9);
+INSERT INTO singers VALUES (9, "Will Smith", 4);
+
+CREATE TABLE multi_talented (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, movies INTEGER, net_worth INTEGER);
+INSERT INTO multi_talented VALUES (1, "Cher", 18, 300);
+INSERT INTO multi_talented VALUES (2, "Ice Cube", 40, 160);
+INSERT INTO multi_talented VALUES (3, "Ludacris", 26, 35);
+INSERT INTO multi_talented VALUES (4, "Barbra Streisand", 19, 400);
+INSERT INTO multi_talented VALUES (5, "Beyonce", 13, 500);
+INSERT INTO multi_talented VALUES (6, "Madonna", 27, 575);
+INSERT INTO multi_talented VALUES (7, "Justin Timberlake", 30, 250);
+INSERT INTO multi_talented VALUES (8, "Britney Spears", 5, 60);
+INSERT INTO multi_talented VALUES (9, "Will Smith", 33, 350);
+
+
+SELECT singers.name, singers.studio_albums,multi_talented.movies FROM singers JOIN multi_talented ON singers.id=multi_talented.id;
+
+
+SELECT singers.name, multi_talented.net_worth AS "Net Worth (in Millions)" FROM singers JOIN multi_talented ON singers.id=multi_talented.id ORDER BY net_worth DESC;
+
+
+SELECT singers.name, singers.studio_albums, multi_talented.net_worth AS "Net Worth (in Millions)" FROM singers JOIN multi_talented ON singers.id=multi_talented.id WHERE singers.studio_albums > 10;
+
+
+SELECT singers.name, singers.studio_albums, multi_talented.movies FROM singers JOIN multi_talented ON singers.id=multi_talented.id WHERE singers.studio_albums> 10 AND multi_talented.movies>10;
