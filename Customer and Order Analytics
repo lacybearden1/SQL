@@ -1,0 +1,46 @@
+#In this SQL, I'm querying a database with multiple tables in it to quantify statistics about customer and order data. 
+
+SELECT * FROM BIT_DB.customers;
+
+SELECT * FROM BIT_DB.JanSales 
+WHERE length(orderID)=6 
+AND orderID <> 'Order ID';
+
+#1. How many orders were placed in January? 
+SELECT count(orderID)FROM BIT_DB.JanSales 
+WHERE length(orderID)=6 
+AND orderID<>'Order ID';
+
+#2. How many of those orders were for an iPhone?
+SELECT count(orderID)FROM BIT_DB.JanSales 
+WHERE Product = 'iPhone';
+
+#3. Select the customer account numbers for all the orders that were placed in February.
+SELECT customers.acctnum, feb.orderID FROM BIT_DB.customers customers
+INNER JOIN BIT_DB.FebSales feb
+ON feb.orderID=customers.order_id;
+
+#4. Which product was the cheapest one sold in January, and what was the price? 
+SELECT product, price FROM BIT_DB.JanSales 
+WHERE price IN (SELECT min(price) 
+FROM BIT_DB.JanSales);
+
+#5. What is the total revenue for each product sold in January?
+SELECT sum(quantity)*price AS revenue, product 
+FROM BIT_DB.JanSales 
+WHERE product <> 'Product' 
+AND price<> 0 
+GROUP BY product;
+
+#6. Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
+SELECT sum(quantity)*price AS revenue, sum(quantity), product 
+FROM BIT_DB.FebSales 
+WHERE location='548 Lincoln St, Seattle, WA 98101';
+
+
+#7. How many customers ordered more than 2 products at a time, and what was the average amount spent for those customers?
+SELECT count(distinct customers.acctnum), AVG(quantity*price) FROM BIT_DB.FebSales feb
+LEFT JOIN BIT_DB.customers customers ON feb.orderID=customers.order_id 
+WHERE feb.Quantity>2
+AND length(orderID)=6
+AND orderID <>'Order ID';
