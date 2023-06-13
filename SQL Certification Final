@@ -1,0 +1,53 @@
+#In this SQL, I'm querying a database with multiple tables to quantify statistics about media sales. 
+
+
+
+#1 I want to find out how much our top 10 customers have spent with us in total.
+SELECT cust.Customerid, cust.FirstName, cust.LastName, inv.Total
+FROM customers cust
+JOIN invoices inv
+ON cust.Customerid = inv.Customerid
+ORDER BY inv.Total DESC
+LIMIT 10;
+
+#2, I found out how many customers each employee had assisted.
+SELECT employees.LastName RepLast, employees.FirstName RepFirst, count(distinct cust.Customerid) AS Customers
+FROM employees
+JOIN customers cust
+ON cust.SupportRepid = employees.EmployeeId
+GROUP BY employees.LastName
+
+#3 What were the 2009 total sales for each employee. 
+WITH sales AS (
+SELECT InvoiceDate, Customerid, Total
+FROM invoices
+WHERE InvoiceDate LIKE '%2009%')
+
+SELECT emp.EmployeeId, emp.LastName, emp.FirstName, ROUND(sum(sales.Total)) AS '$ Sales'
+FROM employees emp
+JOIN customers cust ON cust.SupportRepid=emp.EmployeeId
+JOIN sales ON sales.Customerid=cust.Customerid
+GROUP BY emp.Employeeid
+
+#4 Which songs were purchased more than once.
+SELECT count(distinct inv.invoiceid) AS 'Times Purchased', tracks.Name
+FROM invoice_items inv
+JOIN tracks
+ON inv.Trackid=tracks.Trackid
+GROUP BY inv.Trackid
+HAVING count(distinct invoiceid) >1
+
+#5 Here, we are reviewing our international customers and their purchases.
+SELECT sum(inv.Total) AS 'Total Sales', inv.BillingCountry, cust.CustomerId, cust.FirstName, cust.LastName, emp.LastName AS 'Sales Rep Last', emp.FirstName AS 'Sales Rep First'
+FROM invoices inv
+JOIN customers cust ON inv.CustomerId=cust.CustomerId
+JOIN employees emp ON cust.SupportRepId=emp.EmployeeId
+WHERE inv.BillingCountry <> 'USA'
+GROUP BY cust.CustomerId
+
+#6 I've listed the album, genre, and media type associated with eaxh track. 
+SELECT tracks.Name AS Track, albums.Title AS Album, genres.Name AS Genre, media_types.Name AS Type
+FROM tracks
+JOIN albums ON tracks.AlbumId=albums.AlbumId
+JOIN genres ON tracks.GenreId=genres.GenreId
+JOIN media_types ON tracks.MediaTypeId=media_types.MediaTypeId
