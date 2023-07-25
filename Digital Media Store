@@ -45,7 +45,7 @@ JOIN employees emp ON cust.SupportRepId=emp.EmployeeId
 WHERE inv.BillingCountry <> 'USA'
 GROUP BY cust.CustomerId
 
-#6 I've listed the album, genre, and media type associated with eaxh track. 
+#6 I've listed the album, genre, and media type associated with each track. 
 SELECT tracks.Name AS Track, albums.Title AS Album, genres.Name AS Genre, media_types.Name AS Type
 FROM tracks
 JOIN albums ON tracks.AlbumId=albums.AlbumId
